@@ -1,14 +1,16 @@
-import { Suspense, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import "./App.css";
+import { Suspense } from "react";
 import { Pokemons } from "./components/suspense/Pokemons";
+import { ErrorBoundary } from "react-error-boundary";
+import { FetchError, onError } from "./FetchError";
 
 function App() {
   return (
-    <div className="App">
-      <Suspense fallback={"loading"}>
-        <Pokemons />
-      </Suspense>
+    <div>
+      <ErrorBoundary FallbackComponent={FetchError} onError={onError}>
+        <Suspense fallback={"loading"}>
+          <Pokemons />
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }
