@@ -2,17 +2,29 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 
-export const Pokemon: React.FC<{ pokemonName: string }> = ({ pokemonName }) => {
-  const fetchPokeomonDetail = async () => {
-    const pokemon = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
-    );
-    return pokemon.data;
-  };
+/**
+ * ポケモン情報取得関数
+ * @param pokemonName ポケモンの名前
+ * @re turns ポケモンの情報
+ */
+const fetchPokeomonDetail = async (pokemonName: string) => {
+  const pokemon = await axios.get(
+    `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
+  );
+  return pokemon.data;
+};
 
+/**
+ * 各ポケモンの画像と名前表示コンポーネント
+ */
+export const Pokemon: React.FC<{ pokemonName: string }> = ({ pokemonName }) => {
+  /**
+   * reactQueryで取得したデータをクエリに格納
+   * suspenseをtrueにしているため、suspenseが使える
+   */
   const pokemon = useQuery({
     queryKey: [pokemonName],
-    queryFn: fetchPokeomonDetail,
+    queryFn: () => fetchPokeomonDetail(pokemonName),
     enabled: pokemonName !== undefined,
     suspense: true,
   });

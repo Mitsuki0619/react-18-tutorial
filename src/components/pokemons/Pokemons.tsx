@@ -13,6 +13,10 @@ const fetchPokemons = async () => {
   );
   return pokemons.data;
 };
+
+/**
+ * ポケモンリストコンポーネント
+ */
 export const Pokemons: React.FC<{ search: string }> = ({ search }) => {
   /**
    * reactQueryで取得したデータをクエリに格納
