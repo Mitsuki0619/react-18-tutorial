@@ -31,10 +31,6 @@ export const Pokemon: React.FC<{ pokeName: string; url: string }> = ({
   pokeName,
   url,
 }) => {
-  /**
-   * reactQueryで取得したデータをクエリに格納
-   * suspenseをtrueにしているため、suspenseが使える
-   */
   const pokemon = useQuery({
     queryKey: [pokeName],
     queryFn: () => fetchPokeomon(url),
