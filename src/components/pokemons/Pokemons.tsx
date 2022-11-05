@@ -2,6 +2,7 @@ import React, { Suspense, useEffect, useState, useTransition } from "react";
 import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Pokemon } from "./Pokemon";
+import { SkeltonList } from "./Skelton";
 
 /**
  * ポケモンAPIを叩く
@@ -58,12 +59,15 @@ export const Pokemons: React.FC<{ search: string }> = ({ search }) => {
   }, [search]);
 
   return (
-    <ul className="flex w-10/12 flex-wrap gap-5 justify-center">
-      {filteredPokemons.map((elem: any) => (
-        <li key={elem.name}>
-          <Pokemon pokemonName={elem.name} />
-        </li>
-      ))}
-    </ul>
+    <>
+      {isPending && <SkeltonList />}
+      <ul className="flex w-10/12 flex-wrap gap-5 justify-center">
+        {filteredPokemons.map((elem: any) => (
+          <li key={elem.name}>
+            <Pokemon pokemonName={elem.name} />
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };

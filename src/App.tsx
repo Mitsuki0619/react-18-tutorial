@@ -2,6 +2,7 @@ import { Suspense, useState } from "react";
 import { Pokemons } from "./components/pokemons/Pokemons";
 import { ErrorBoundary } from "react-error-boundary";
 import { FetchError, onError } from "./FetchError";
+import { SkeltonList } from "./components/pokemons/Skelton";
 
 function App() {
   /**
@@ -21,7 +22,7 @@ function App() {
           />
         </div>
         <ErrorBoundary FallbackComponent={FetchError} onError={onError}>
-          <Suspense fallback={"loading"}>
+          <Suspense fallback={<SkeltonList/>}>
             <Pokemons search={search} />
           </Suspense>
         </ErrorBoundary>
