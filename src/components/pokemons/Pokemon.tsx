@@ -10,20 +10,20 @@ export const Pokemon: React.FC<{ pokemonName: string }> = ({ pokemonName }) => {
     return pokemon.data;
   };
 
-  const queryClient = useQueryClient();
   const pokemon = useQuery({
     queryKey: [pokemonName],
     queryFn: fetchPokeomonDetail,
     enabled: pokemonName !== undefined,
     suspense: true,
   });
-  console.log(pokemon.data);
 
   return (
-    <div>
-      <img src={pokemon.data.sprites.front_default} alt={pokemon.data.name} />
-      <img src={pokemon.data.sprites.front_shiny} alt={pokemon.data.name} />
-      {pokemon.data.name}
+    <div className="text-center rounded-md shadow-lg p-3 bg-neutral-600">
+      <div className="flex">
+        <img src={pokemon.data.sprites.front_default} alt={pokemon.data.name} />
+        <img src={pokemon.data.sprites.front_shiny} alt={pokemon.data.name} />
+      </div>
+      <p>{pokemon.data.name}</p>
     </div>
   );
 };
