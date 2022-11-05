@@ -6,17 +6,20 @@ import { FetchError } from "../../FetchError";
 
 /**
  * ポケモン情報取得関数
- * @param pokeName ポケモンの名前
+ * @param pokeName apiのエンドポイント
  * @re turns ポケモンの情報
  */
-const fetchPokeomonDetail = async (pokeName: string) => {
-  const pokemon = await axios.get(
-    `https://pokeapi.co/api/v2/pokemon/${pokeName}`
-  );
+const fetchPokeomon = async (url: string) => {
+  const pokemon = await axios.get(url);
   return pokemon.data;
 };
 
-const fetchJaName = async (url: string) => {
+/**
+ * ポケモン詳細情報取得関数
+ * @param url apiのエンドポイント
+ * @re turns ポケモンの詳細情報
+ */
+const fetchSpecies = async (url: string) => {
   const species = await axios.get(url);
   return species.data;
 };
@@ -24,14 +27,17 @@ const fetchJaName = async (url: string) => {
 /**
  * 各ポケモンの画像と名前表示コンポーネント
  */
-export const Pokemon: React.FC<{ pokeName: string }> = ({ pokeName }) => {
+export const Pokemon: React.FC<{ pokeName: string; url: string }> = ({
+  pokeName,
+  url,
+}) => {
   /**
    * reactQueryで取得したデータをクエリに格納
    * suspenseをtrueにしているため、suspenseが使える
    */
   const pokemon = useQuery({
     queryKey: [pokeName],
-    queryFn: () => fetchPokeomonDetail(pokeName),
+    queryFn: () => fetchPokeomon(url),
     enabled: pokeName !== undefined,
     suspense: true,
   });
@@ -50,13 +56,16 @@ export const Pokemon: React.FC<{ pokeName: string }> = ({ pokeName }) => {
   );
 };
 
+/**
+ * ポケモン詳細情報表示コンポーネント（とりあえず日本語名を表示）
+ */
 const PokeSpecies: React.FC<{ pokeName: string; url: string }> = ({
   pokeName,
   url,
 }) => {
   const species = useQuery({
-    queryKey: [`${pokeName}JP`],
-    queryFn: () => fetchJaName(url),
+    queryKey: [`${pokeName}'s species`],
+    queryFn: () => fetchSpecies(url),
     suspense: true,
   });
   return <p>{species.data.names[0].name}</p>;
