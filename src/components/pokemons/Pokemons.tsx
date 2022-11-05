@@ -64,7 +64,7 @@ export const Pokemons: React.FC<{ search: string }> = ({ search }) => {
       <ul className="flex w-10/12 flex-wrap gap-5 justify-center">
         {filteredPokemons.map((elem: any) => (
           <li key={elem.name}>
-            <Pokemon pokemonName={elem.name} />
+            <Pokemon pokeName={elem.name} />
           </li>
         ))}
       </ul>
